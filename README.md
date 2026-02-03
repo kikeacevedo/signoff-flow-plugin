@@ -1,92 +1,62 @@
-# Signoff Flow Plugin
+# Signoff Flow Skill
 
 PR-centric lead-only signoff workflow with Jira visibility for Claude Code.
 
-## Overview
-
-This plugin helps teams manage initiative approvals through a structured workflow:
-
-```
-PRD → UX → Architecture → Epics & Stories → Implementation Readiness
-```
-
-Each step creates:
-- A **GitHub PR** for lead approvals
-- **Jira tickets** for visibility (one per required group)
-- **State tracking** in the repo
-
-## Installation
-
-### Option 1: Install from Marketplace (Recommended)
+## Quick Install
 
 ```bash
-/plugin install signoff-flow
+mkdir -p ~/.claude/skills && git clone https://github.com/kikeacevedo/signoff-flow-plugin.git ~/.claude/skills/signoff-flow
 ```
 
-### Option 2: Install from Directory
+## Usage
 
-```bash
-claude --plugin-dir ./signoff-flow
+Open Claude Code in any project and run:
+
+```
+/signoff-flow new
 ```
 
-### Option 3: Copy as Standalone Skill
+## What It Does
 
-Copy `skills/signoff-flow/SKILL.md` to `~/.claude/skills/signoff-flow/SKILL.md`
+Guides initiatives through a structured approval process:
+
+1. **PRD** → BA, Design, Dev approval
+2. **UX** → BA, Design approval
+3. **Architecture** → Dev approval
+4. **Epics & Stories** → BA, Dev approval
+5. **Implementation Readiness** → BA, Design, Dev approval
+
+For each step:
+- Creates a GitHub PR with reviewers
+- Creates Jira tickets for visibility
+- Tracks state in `_bmad-output/`
 
 ## Prerequisites
 
-1. **Atlassian MCP** configured for Jira access
+1. **Claude Code** installed
 2. **GitHub CLI** (`gh`) installed and authenticated
-3. A git repository for your project
+3. **Atlassian MCP** configured for Jira access
 
-## Quick Start
+## First Run
 
-1. Run the workflow:
-   ```
-   /signoff-flow:signoff-flow new
-   ```
+On first run in a new project, you'll configure governance:
+- BA / Design / Dev lead GitHub usernames
+- Jira project key
+- (Optional) Jira account IDs for assignment
 
-2. Follow the prompts to:
-   - Configure governance (first run only)
-   - Create an initiative
-   - Generate PRs and Jira tickets
+This creates `_bmad-output/governance/governance.yaml`.
 
-3. When PRs are approved and merged, run again to advance:
-   ```
-   /signoff-flow:signoff-flow INIT-001
-   ```
+## Commands
 
-## How It Works
-
-### Governance
-
-On first run, you'll configure leads for each group:
-- **BA** (Business Analyst)
-- **Design**
-- **Dev** (Development)
-
-This is stored in `_bmad-output/governance/governance.yaml`.
-
-### Artifacts
-
-Each initiative progresses through 5 artifacts:
-
-| Artifact | Required Groups |
-|----------|-----------------|
-| PRD | BA, Design, Dev |
-| UX | BA, Design |
-| Architecture | Dev |
-| Epics & Stories | BA, Dev |
-| Readiness | BA, Design, Dev |
-
-### Signoff Process
-
-1. Agent creates artifact stub + PR + Jira tickets
-2. Leads review and approve the PR
-3. PR is merged
-4. Run workflow again to advance to next artifact
+| Command | Description |
+|---------|-------------|
+| `/signoff-flow new` | Start a new initiative |
+| `/signoff-flow <key>` | Continue existing initiative |
+| `/signoff-flow status` | Show all initiatives status |
 
 ## File Structure
+
+After running the workflow:
 
 ```
 _bmad-output/
@@ -104,28 +74,11 @@ _bmad-output/
             └── IMPLEMENTATION_READINESS.md
 ```
 
-## Commands
+## Uninstall
 
-| Command | Description |
-|---------|-------------|
-| `/signoff-flow:signoff-flow new` | Start a new initiative |
-| `/signoff-flow:signoff-flow <key>` | Continue existing initiative |
-| `/signoff-flow:signoff-flow status` | Show all initiatives status |
-
-## Configuration
-
-### Governance File
-
-Edit `_bmad-output/governance/governance.yaml` to:
-- Add/remove leads
-- Change Jira project
-- Modify signoff rules
-
-### Templates
-
-Templates are in `skills/signoff-flow/templates/`:
-- `governance.yaml` - Governance structure
-- `state.yaml` - Initiative state structure
+```bash
+rm -rf ~/.claude/skills/signoff-flow
+```
 
 ## License
 
