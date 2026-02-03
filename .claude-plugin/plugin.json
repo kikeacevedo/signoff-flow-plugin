@@ -1,0 +1,27 @@
+{
+  "name": "signoff-flow",
+  "description": "PR-centric lead-only signoff workflow with Jira visibility. Manages initiative progression through PRD → UX → Architecture → Epics → Readiness with GitHub PR gates and Jira tickets for visibility.",
+  "version": "1.0.0",
+  "author": {
+    "name": "HALO",
+    "url": "https://github.com/halo-powered"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/halo-powered/signoff-flow-plugin"
+  },
+  "license": "MIT",
+  "keywords": [
+    "signoff",
+    "approval",
+    "workflow",
+    "jira",
+    "github",
+    "pr",
+    "initiative",
+    "governance"
+  ],
+  "claude-code": {
+    "minVersion": "1.0.33"
+  }
+}

@@ -1,0 +1,75 @@
+version: 1
+key: "<INITIATIVE_KEY>"
+title: "<INITIATIVE_TITLE>"
+external_ids:
+  jira: ""
+
+phase: planning
+current_step: prd
+
+governance_ref:
+  path: _bmad-output/governance/governance.yaml
+
+artifacts:
+  prd:
+    path: _bmad-output/initiatives/<INITIATIVE_KEY>/artifacts/PRD.md
+    required_groups: [ba, design, dev]
+    active:
+      branch: "bmad/<INITIATIVE_KEY>/prd"
+      pr_url: ""
+      pr_number: null
+      status: none  # none|open|merged|blocked
+      jira_signoff_tickets:
+        ba: ""
+        design: ""
+        dev: ""
+
+  ux:
+    path: _bmad-output/initiatives/<INITIATIVE_KEY>/artifacts/UX.md
+    required_groups: [ba, design]
+    active:
+      branch: "bmad/<INITIATIVE_KEY>/ux"
+      pr_url: ""
+      pr_number: null
+      status: none
+      jira_signoff_tickets:
+        ba: ""
+        design: ""
+
+  architecture:
+    path: _bmad-output/initiatives/<INITIATIVE_KEY>/artifacts/ARCHITECTURE.md
+    required_groups: [dev]
+    active:
+      branch: "bmad/<INITIATIVE_KEY>/architecture"
+      pr_url: ""
+      pr_number: null
+      status: none
+      jira_signoff_tickets:
+        dev: ""
+
+  epics_stories:
+    path: _bmad-output/initiatives/<INITIATIVE_KEY>/artifacts/EPICS_AND_STORIES.md
+    required_groups: [ba, dev]
+    active:
+      branch: "bmad/<INITIATIVE_KEY>/epics-stories"
+      pr_url: ""
+      pr_number: null
+      status: none
+      jira_signoff_tickets:
+        ba: ""
+        dev: ""
+
+  readiness:
+    path: _bmad-output/initiatives/<INITIATIVE_KEY>/artifacts/IMPLEMENTATION_READINESS.md
+    required_groups: [ba, design, dev]
+    active:
+      branch: "bmad/<INITIATIVE_KEY>/readiness"
+      pr_url: ""
+      pr_number: null
+      status: none
+      jira_signoff_tickets:
+        ba: ""
+        design: ""
+        dev: ""
+
+history: []

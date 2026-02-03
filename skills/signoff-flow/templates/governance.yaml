@@ -1,0 +1,48 @@
+version: 1
+
+# People directory - maps GitHub usernames to Jira identities
+people:
+  example-user:
+    github_username: "example-user"
+    jira:
+      account_id: ""  # Get from Jira user profile
+      display_name: "Example User"
+
+groups:
+  ba:
+    leads:
+      github_users: []  # Add BA lead GitHub usernames
+      jira_account_ids: []  # Optional: Jira account IDs for assignment
+    github:
+      team_slug: ""  # Optional: GitHub team slug
+
+  design:
+    leads:
+      github_users: []  # Add Design lead GitHub usernames
+      jira_account_ids: []
+    github:
+      team_slug: ""
+
+  dev:
+    leads:
+      github_users: []  # Add Dev lead GitHub usernames
+      jira_account_ids: []
+    github:
+      team_slug: ""
+
+jira:
+  project_key: ""  # Your Jira project key (e.g., "PROJ")
+  issue_types:
+    signoff_request: "Task"
+
+signoff_rules:
+  prd:
+    required_groups: [ba, design, dev]
+  ux:
+    required_groups: [ba, design]
+  architecture:
+    required_groups: [dev]
+  epics_stories:
+    required_groups: [ba, dev]
+  readiness:
+    required_groups: [ba, design, dev]
