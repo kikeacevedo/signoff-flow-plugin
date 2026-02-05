@@ -1,77 +1,47 @@
-# Signoff Flow Skill
+# Signoff Flow - Claude Code Skill
 
-PR-centric lead-only signoff workflow with Jira visibility for Claude Code.
+A skill for managing signoff workflows with GitHub and Jira integration.
 
 ## Quick Install
 
+**Copy and paste this command in Terminal:**
+
 ```bash
-mkdir -p ~/.claude/skills && git clone https://github.com/kikeacevedo/signoff-flow-plugin.git ~/.claude/skills/signoff-flow
+mkdir -p ~/.claude/skills/signoff-flow && curl -sL https://raw.githubusercontent.com/kikeacevedo/signoff-flow-plugin/main/SKILL.md -o ~/.claude/skills/signoff-flow/SKILL.md && echo "✅ Installed!"
 ```
+
+Then **restart Claude Desktop** and use `/signoff-flow` in the Code tab.
+
+## What it does
+
+- Guides initiatives through approval process (PRD → UX → Architecture → Epics → Readiness)
+- Creates GitHub PRs for each artifact
+- Creates Jira tickets for visibility
+- Tracks progress in repo (source of truth)
 
 ## Usage
 
-Open Claude Code in any project and run:
+In Claude Desktop (Code tab) or Claude Code CLI:
 
 ```
-/signoff-flow new
+/signoff-flow
 ```
 
-## What It Does
+The skill will:
+1. Check if you have a project with governance configured
+2. If not, help you find and clone a project from GitHub
+3. Guide you through creating initiatives and getting signoffs
 
-Guides initiatives through a structured approval process:
+## Requirements
 
-1. **PRD** → BA, Design, Dev approval
-2. **UX** → BA, Design approval
-3. **Architecture** → Dev approval
-4. **Epics & Stories** → BA, Dev approval
-5. **Implementation Readiness** → BA, Design, Dev approval
+- GitHub CLI (`gh`) - will guide you to install if missing
+- Atlassian MCP connection (for Jira tickets)
 
-For each step:
-- Creates a GitHub PR with reviewers
-- Creates Jira tickets for visibility
-- Tracks state in `_bmad-output/`
+## Manual Installation
 
-## Prerequisites
-
-1. **Claude Code** installed
-2. **GitHub CLI** (`gh`) installed and authenticated
-3. **Atlassian MCP** configured for Jira access
-
-## First Run
-
-On first run in a new project, you'll configure governance:
-- BA / Design / Dev lead GitHub usernames
-- Jira project key
-- (Optional) Jira account IDs for assignment
-
-This creates `_bmad-output/governance/governance.yaml`.
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/signoff-flow new` | Start a new initiative |
-| `/signoff-flow <key>` | Continue existing initiative |
-| `/signoff-flow status` | Show all initiatives status |
-
-## File Structure
-
-After running the workflow:
-
-```
-_bmad-output/
-├── governance/
-│   └── governance.yaml          # Lead configuration
-└── initiatives/
-    └── <key>/
-        ├── state.yaml           # Current state
-        ├── timeline.md          # Audit log
-        └── artifacts/
-            ├── PRD.md
-            ├── UX.md
-            ├── ARCHITECTURE.md
-            ├── EPICS_AND_STORIES.md
-            └── IMPLEMENTATION_READINESS.md
+```bash
+mkdir -p ~/.claude/skills/signoff-flow
+# Download SKILL.md to that folder
 ```
 
 ## Uninstall
@@ -79,7 +49,3 @@ _bmad-output/
 ```bash
 rm -rf ~/.claude/skills/signoff-flow
 ```
-
-## License
-
-MIT

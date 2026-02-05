@@ -23,11 +23,91 @@ This workflow manages the progression of initiatives through planning artifacts:
 - Lead-only signoff (only configured leads count)
 - Jira is visibility only (tickets mirror signoffs, not canonical)
 
-## Workflow Steps
+## IMPORTANT: Pre-flight Check
+
+**Before doing anything else, perform these checks in order:**
+
+### 1. Check if project has governance
+
+Look for `_bmad-output/governance/governance.yaml` in the current directory.
+
+### 2. If NO governance found, help user find a project
+
+When no governance exists, DON'T immediately ask to set it up. Instead:
+
+1. **Check if gh CLI is installed**: Run `which gh`
+2. **Check if user is authenticated**: Run `gh auth status`
+
+**If gh is installed and authenticated:**
+
+Show the user their available options:
+
+```
+## No signoff workflow found in this directory
+
+Let me help you find a project to work on.
+
+### Your GitHub Organizations
+[Run: gh api user/orgs -q '.[].login' and list results]
+
+### Your Recent Repositories  
+[Run: gh repo list --limit 5 --json name,owner and list results]
+
+### Options:
+1. **Clone a project**: Tell me which repo you want to clone (e.g., "HALO/my-project")
+2. **Set up signoff here**: I'll configure governance in the current directory
+3. **List more repos**: Tell me an organization name to see its repositories
+
+Which would you like to do?
+```
+
+**If gh is NOT installed:**
+```
+## No signoff workflow found
+
+The gh CLI is not installed. To browse and clone projects from GitHub, please install it:
+
+macOS: brew install gh
+Windows: winget install --id GitHub.cli
+
+After installing, run: gh auth login
+
+Alternatively, I can set up the signoff workflow in the current directory.
+Would you like to set up governance here?
+```
+
+**If gh is installed but NOT authenticated:**
+```
+## No signoff workflow found
+
+You're not logged into GitHub. To browse and clone projects, please authenticate:
+
+Run: gh auth login
+
+Follow the prompts to log in via browser.
+
+Alternatively, I can set up the signoff workflow in the current directory.
+Would you like to set up governance here?
+```
+
+### 3. Clone project if requested
+
+When user wants to clone a project:
+
+```bash
+# Clone to ~/signoff-projects/<repo-name>
+mkdir -p ~/signoff-projects
+gh repo clone <owner>/<repo> ~/signoff-projects/<repo>
+cd ~/signoff-projects/<repo>
+```
+
+Then check if governance exists in the cloned repo.
+
+## Workflow Steps (after project is selected)
 
 ### Step 0: Check/Bootstrap Governance
 
-First, check if governance exists at `_bmad-output/governance/governance.yaml`.
+If governance exists at `_bmad-output/governance/governance.yaml`, show current status.
 
 If missing, ask the user for:
 - BA lead GitHub username(s)
@@ -147,6 +227,38 @@ _bmad-output/
 
 ## Example Usage
 
+### When no project is set up:
+```
+User: /signoff-flow status
+Agent: ## No signoff workflow found in this directory
+
+       Let me help you find a project to work on.
+
+       ### Your GitHub Organizations
+       - HALO
+       - another-org
+
+       ### Your Recent Repositories
+       - kikeacevedo/signoff-flow-mcp-v2
+       - kikeacevedo/my-app
+
+       ### Options:
+       1. Clone a project (e.g., "HALO/my-project")
+       2. Set up signoff in current directory
+       3. List repos from a specific organization
+
+       Which would you like?
+
+User: Clone HALO/feature-payments
+Agent: ✅ Cloned to ~/signoff-projects/feature-payments
+       ✅ Found existing governance configuration
+       
+       Current status: No active initiatives
+       
+       Would you like to create a new initiative?
+```
+
+### When project has governance:
 ```
 User: /signoff-flow new
 Agent: What's the initiative key? (Prefer Jira key like ABC-123)
